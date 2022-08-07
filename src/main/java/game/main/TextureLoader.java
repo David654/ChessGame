@@ -6,6 +6,7 @@ public class TextureLoader
 {
     public static final Texture WHITE_SQUARE_TEXTURE = loadTexture("squares\\white.png");
     public static final Texture BLACK_SQUARE_TEXTURE = loadTexture("squares\\black.png");
+    public static final Texture BLANK_SQUARE_TEXTURE = loadTexture("squares\\blank.png");
 
     public static final Texture PAWN_WHITE_TEXTURE = loadTexture("pieces\\pawn_white.png");
     public static final Texture KNIGHT_WHITE_TEXTURE = loadTexture("pieces\\knight_white.png");
@@ -23,6 +24,8 @@ public class TextureLoader
 
     public static Texture loadTexture(String path)
     {
-        return new Texture("src\\main\\resources\\board\\" + path);
+        Texture texture = new Texture("src\\main\\resources\\board\\" + path);
+        texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        return texture;
     }
 }

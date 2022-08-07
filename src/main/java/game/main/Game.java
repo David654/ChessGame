@@ -2,6 +2,7 @@ package game.main;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import game.board.Board;
 import game.board.BoardView;
@@ -16,6 +17,7 @@ public class Game extends ScreenAdapter
     public static final BoardView BOARD_VIEW = BoardView.WhiteView;
 
     private SpriteBatch spriteBatch;
+    private BitmapFont font;
     private Board board;
 
     public Game()
@@ -27,6 +29,7 @@ public class Game extends ScreenAdapter
     private void initGraphics()
     {
         spriteBatch = new SpriteBatch();
+        font = new BitmapFont();
     }
 
     private void initGameElements()
@@ -49,7 +52,7 @@ public class Game extends ScreenAdapter
 
         spriteBatch.begin();
 
-        board.render(spriteBatch);
+        board.render(spriteBatch, font);
 
         spriteBatch.end();
     }

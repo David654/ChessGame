@@ -19,6 +19,7 @@ public class DesktopLauncher
 
     public static final int TICK_RATE = 60;
     public static final boolean VSYNC = false;
+    public static final int antialiasing = 4;
 
     public DesktopLauncher()
     {
