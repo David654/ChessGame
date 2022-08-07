@@ -13,16 +13,23 @@ public class Square
     private final Color color;
     private Texture texture;
 
-    public Square(Position position)
+    public Square(BoardView boardView, Position position)
     {
         this.position = position;
 
-        color = ((position.getFile() % 2 == 0) == (position.getRank() % 2 == 0)) ? Color.Black : Color.White;
+        if(boardView == BoardView.WhiteView)
+        {
+            color = ((position.getFile() % 2 == 0) == (position.getRank() % 2 == 0)) ? Color.Black : Color.White;
+        }
+        else
+        {
+            color = ((position.getFile() % 2 == 0) != (position.getRank() % 2 == 0)) ? Color.Black : Color.White;
+        }
 
         switch(color)
         {
-            case Black -> texture = TextureLoader.BLACK_SQUARE_TEXTURE;
             case White -> texture = TextureLoader.WHITE_SQUARE_TEXTURE;
+            case Black -> texture = TextureLoader.BLACK_SQUARE_TEXTURE;
         }
     }
 

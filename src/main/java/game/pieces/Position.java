@@ -11,28 +11,28 @@ public class Position
     public static final int G = 7;
     public static final int H = 8;
 
-    private final int file;
     private final int rank;
+    private final int file;
 
     public Position()
     {
         this(1, A);
     }
 
-    public Position(int file, int rank)
+    public Position(int rank, int file)
     {
-        this.file = file;
         this.rank = rank;
-    }
-
-    public int getFile()
-    {
-        return file;
+        this.file = file;
     }
 
     public int getRank()
     {
         return rank;
+    }
+
+    public int getFile()
+    {
+        return file;
     }
 
     public String toString()
@@ -55,6 +55,6 @@ public class Position
     public boolean equals(Object o)
     {
         Position position = (Position) o;
-        return file == position.getFile() && rank == position.getRank();
+        return rank == position.getRank() && file == position.getFile();
     }
 }

@@ -1,20 +1,20 @@
 package game.pieces;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import game.main.TextureLoader;
 
 public class Queen extends Piece
 {
     public Queen(Position position, Color color)
     {
         super(position, color);
+        switch(color)
+        {
+            case White -> texture = TextureLoader.QUEEN_WHITE_TEXTURE;
+            case Black -> texture = TextureLoader.QUEEN_BLACK_TEXTURE;
+        }
     }
 
     public void update()
-    {
-
-    }
-
-    public void render(SpriteBatch spriteBatch)
     {
 
     }
