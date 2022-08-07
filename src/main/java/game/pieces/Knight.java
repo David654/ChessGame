@@ -4,9 +4,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class Knight extends Piece
 {
-    public Knight(Position position)
+    public Knight(Position position, Color color)
     {
-        super(position);
+        super(position, color);
     }
 
     public void update()

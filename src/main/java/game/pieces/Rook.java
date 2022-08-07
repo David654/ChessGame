@@ -4,9 +4,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class Rook extends Piece
 {
-    public Rook(Position position)
+    public Rook(Position position, Color color)
     {
-        super(position);
+        super(position, color);
     }
 
     public void update()

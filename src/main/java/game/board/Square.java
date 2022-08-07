@@ -1,17 +1,29 @@
 package game.board;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import game.pieces.Piece;
+import game.main.Game;
+import game.main.TextureLoader;
+import game.pieces.Color;
 import game.pieces.Position;
 
 public class Square
 {
     private final Position position;
-    private Piece piece = null;
+    private final Color color;
+    private Texture texture;
 
     public Square(Position position)
     {
         this.position = position;
+
+        color = ((position.getFile() % 2 == 0) == (position.getRank() % 2 == 0)) ? Color.Black : Color.White;
+
+        switch(color)
+        {
+            case Black -> texture = TextureLoader.BLACK_SQUARE_TEXTURE;
+            case White -> texture = TextureLoader.WHITE_SQUARE_TEXTURE;
+        }
     }
 
     public Position getPosition()
@@ -19,23 +31,13 @@ public class Square
         return position;
     }
 
-    public Piece getPiece()
+    public Color getColor()
     {
-        return piece;
-    }
-
-    public void setPiece(Piece piece)
-    {
-        this.piece = piece;
-    }
-
-    public void update()
-    {
-        piece.update();
+        return color;
     }
 
     public void render(SpriteBatch spriteBatch)
     {
-        piece.render(spriteBatch);
+        spriteBatch.draw(texture, position.getFile() * Game.SQUARE_SIZE, position.getRank() * Game.SQUARE_SIZE, Game.SQUARE_SIZE, Game.SQUARE_SIZE);
     }
 }

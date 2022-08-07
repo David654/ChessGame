@@ -4,12 +4,16 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import game.board.Board;
+import game.board.BoardView;
+import launcher.DesktopLauncher;
 import org.lwjgl.opengl.GL20;
 
 public class Game extends ScreenAdapter
 {
-    private SpriteBatch spriteBatch;
+    public static final int SQUARE_SIZE = DesktopLauncher.WINDOW_WIDTH / 16;
+    public static final int PIECE_SIZE = DesktopLauncher.WINDOW_WIDTH / 20;
 
+    private SpriteBatch spriteBatch;
     private Board board;
 
     public Game()
@@ -25,7 +29,7 @@ public class Game extends ScreenAdapter
 
     private void initGameElements()
     {
-        board = new Board();
+        board = new Board(BoardView.WhiteView);
     }
 
     private void update()
@@ -40,6 +44,10 @@ public class Game extends ScreenAdapter
 
         update();
 
+        spriteBatch.begin();
+
         board.render(spriteBatch);
+
+        spriteBatch.end();
     }
 }

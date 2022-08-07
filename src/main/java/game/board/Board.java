@@ -8,25 +8,37 @@ import java.util.ArrayList;
 
 public class Board
 {
-    private final ArrayList<Square> squares;
+    private BoardView boardView;
+    private final Square[] squares;
+    private final ArrayList<Piece> pieces;
 
-    public Board()
+    public Board(BoardView boardView)
     {
-        squares = new ArrayList<>();
+        this.boardView = boardView;
+        squares = new Square[64];
+        for(int x = 0; x < 8; x++)
+        {
+            for(int y = 0; y < 8; y++)
+            {
+                squares[x * 8 + y] = new Square(new Position(x + 1, y + 1));
+            }
+        }
+
+        pieces = new ArrayList<>();
     }
 
-    public void addSquare(Square square)
+    public void addPiece(Piece piece)
     {
-        squares.add(square);
+        pieces.add(piece);
     }
 
     public Piece getPiece(Position position)
     {
-        for(Square square : squares)
+        for(Piece piece : pieces)
         {
-            if(square.getPosition().equals(position))
+            if(piece.getPosition().equals(position))
             {
-                return square.getPiece();
+                return piece;
             }
         }
         return null;
@@ -34,31 +46,30 @@ public class Board
 
     public void removePiece(Piece piece)
     {
-        for(Square square : squares)
-        {
-            if(square.getPiece().equals(piece))
-            {
-                squares.remove(square);
-                break;
-            }
-        }
+        pieces.remove(piece);
     }
 
     public void update()
     {
-        for(int i = 0; i < squares.size(); i++)
+        for(int i = 0; i < pieces.size(); i++)
         {
-            Square square = squares.get(i);
-            square.update();
+            Piece piece = pieces.get(i);
+            piece.update();
         }
     }
 
     public void render(SpriteBatch spriteBatch)
     {
-        for(int i = 0; i < squares.size(); i++)
+        for(int i = 0; i < squares.length; i++)
         {
-            Square square = squares.get(i);
+            Square square = squares[i];
             square.render(spriteBatch);
+        }
+
+        for(int i = 0; i < pieces.size(); i++)
+        {
+            Piece piece = pieces.get(i);
+            piece.render(spriteBatch);
         }
     }
 }

@@ -4,9 +4,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class Pawn extends Piece
 {
-    public Pawn(Position position)
+    public Pawn(Position position, Color color)
     {
-        super(position);
+        super(position, color);
     }
 
     public void update()

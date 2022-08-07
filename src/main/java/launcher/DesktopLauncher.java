@@ -15,7 +15,7 @@ public class DesktopLauncher
     public static final int WINDOW_HEIGHT = SCREEN_SIZE.height / 2;
     public static final boolean MAXIMIZED = false;
     public static final boolean DECORATED = true;
-    public static final String TITLE = "3D Engine";
+    public static final String TITLE = "Chess Game";
 
     public static final int TICK_RATE = 60;
     public static final boolean VSYNC = false;

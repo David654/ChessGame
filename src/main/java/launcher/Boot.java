@@ -6,6 +6,6 @@ public class Boot extends Game
 {
     public void create()
     {
-
+        setScreen(new game.main.Game());
     }
 }
