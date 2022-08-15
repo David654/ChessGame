@@ -1,28 +1,34 @@
 package game.pieces;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import game.board.BoardView;
 import game.main.Game;
 
+import java.awt.*;
+import java.awt.image.BufferedImage;
+
 public abstract class Piece
 {
-    private Position position;
-    private int x;
-    private int y;
-    private final Color color;
-    protected Texture texture = null;
+    protected Position position;
+    protected int x;
+    protected int y;
+    protected final Color color;
+    protected BufferedImage texture = null;
+    protected boolean isSelected = false;
+    protected String[] symbols;
+    protected Position[] possibleMoves;
 
-    public Piece(Position position, Color color)
+    public Piece(Position position, Color color, String[] symbols)
     {
         this.position = position;
         this.color = color;
-        x = position.getRank() * Game.SQUARE_SIZE + (Game.SQUARE_SIZE - Game.PIECE_SIZE) / 2;
-        y = position.getFile() * Game.SQUARE_SIZE + (Game.SQUARE_SIZE - Game.PIECE_SIZE) / 2;
+        this.symbols = symbols;
+        x = Position.positionToCoordinates(position)[0];
+        y = Position.positionToCoordinates(0, 9, position)[1];
 
         if(Game.BOARD_VIEW == BoardView.BlackView)
         {
-            y = (9 - position.getFile()) * Game.SQUARE_SIZE + (Game.SQUARE_SIZE - Game.PIECE_SIZE) / 2;
+            x = Position.positionToCoordinates(position)[0];
+            y = Position.positionToCoordinates(position)[1];
         }
     }
 
@@ -59,13 +65,26 @@ public abstract class Piece
     public void setPosition(Position position)
     {
         this.position = position;
+        x = Position.positionToCoordinates(position)[0];
+        y = Position.positionToCoordinates(position)[1];
     }
 
-    public String toString()
+    public boolean isSelected()
     {
-        String className = Piece.class.getName();
-        return className + ": " + position.toString();
+        return isSelected;
     }
+
+    public void setSelected(boolean selected)
+    {
+        isSelected = selected;
+    }
+
+    public String[] getSymbols()
+    {
+        return symbols;
+    }
+
+    public abstract String toString();
 
     public boolean equals(Object o)
     {
@@ -75,8 +94,8 @@ public abstract class Piece
 
     public abstract void update();
 
-    public void render(SpriteBatch spriteBatch)
+    public void render(Graphics2D g2d)
     {
-        spriteBatch.draw(texture, x, y, Game.PIECE_SIZE, Game.PIECE_SIZE);
+        g2d.drawImage(texture, x, y, Game.PIECE_SIZE, Game.PIECE_SIZE, null);
     }
 }

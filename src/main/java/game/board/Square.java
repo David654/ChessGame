@@ -1,25 +1,28 @@
 package game.board;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import game.main.Game;
-import game.main.TextureLoader;
+import game.util.TextureLoader;
 import game.pieces.Color;
 import game.pieces.Position;
 
+import java.awt.*;
+import java.awt.image.BufferedImage;
+
 public class Square
 {
-    private final Position position;
-    private Color color;
-    private Texture texture;
-    private String text = "";
+    protected Board board;
+    protected final Position position;
+    protected Color color;
+    protected BufferedImage texture;
 
-    public Square(BoardView boardView, Position position)
+    public Square(Board board, Position position)
     {
+        this.board = board;
         this.position = position;
 
-        if(boardView == BoardView.WhiteView)
+        if(Game.BOARD_VIEW == BoardView.WhiteView)
         {
             color = ((position.getFile() % 2 == 0) == (position.getRank() % 2 == 0)) ? Color.Black : Color.White;
         }
@@ -45,6 +48,11 @@ public class Square
         return color;
     }
 
+    public void setTexture(BufferedImage texture)
+    {
+        this.texture = texture;
+    }
+
     public void setColor(Color color)
     {
         this.color = color;
@@ -52,18 +60,16 @@ public class Square
         {
             case White -> texture = TextureLoader.WHITE_SQUARE_TEXTURE;
             case Black -> texture = TextureLoader.BLACK_SQUARE_TEXTURE;
-            case Blank -> texture = TextureLoader.BLANK_SQUARE_TEXTURE;
         }
     }
 
-    public void setText(String text)
+    public boolean isEmpty()
     {
-        this.text = text;
+        return board.getPiece(position) == null;
     }
 
-    public void render(SpriteBatch spriteBatch, BitmapFont font)
+    public void render(Graphics2D g2d)
     {
-        spriteBatch.draw(texture, position.getRank() * Game.SQUARE_SIZE, position.getFile() * Game.SQUARE_SIZE, Game.SQUARE_SIZE, Game.SQUARE_SIZE);
-        font.draw(spriteBatch, text, position.getRank() * Game.SQUARE_SIZE, (position.getFile() + 1) * Game.SQUARE_SIZE);
+        g2d.drawImage(texture, position.getRank() * Game.SQUARE_SIZE + Game.SQUARE_SIZE / 2, position.getFile() * Game.SQUARE_SIZE + Game.SQUARE_SIZE / 2, Game.SQUARE_SIZE, Game.SQUARE_SIZE, null);
     }
 }

@@ -1,5 +1,7 @@
 package game.pieces;
 
+import game.main.Game;
+
 public class Position
 {
     public static final int A = 1;
@@ -40,14 +42,14 @@ public class Position
         String c = "NULL";
         switch(rank)
         {
-            case 1 -> c = "A";
-            case 2 -> c = "B";
-            case 3 -> c = "C";
-            case 4 -> c = "D";
-            case 5 -> c = "E";
-            case 6 -> c = "F";
-            case 7 -> c = "G";
-            case 8 -> c = "H";
+            case 1 -> c = "a";
+            case 2 -> c = "b";
+            case 3 -> c = "c";
+            case 4 -> c = "d";
+            case 5 -> c = "e";
+            case 6 -> c = "f";
+            case 7 -> c = "g";
+            case 8 -> c = "h";
         }
         return c + file;
     }
@@ -56,5 +58,29 @@ public class Position
     {
         Position position = (Position) o;
         return rank == position.getRank() && file == position.getFile();
+    }
+
+    public Position flip()
+    {
+        return new Position(rank, 9 - file);
+    }
+
+    public static Position coordinatesToPosition(int x, int y)
+    {
+        return new Position(x / Game.SQUARE_SIZE, y / Game.SQUARE_SIZE);
+    }
+
+    public static int[] positionToCoordinates(Position position)
+    {
+        int x = (position.getRank()) * Game.SQUARE_SIZE + (Game.SQUARE_SIZE - Game.PIECE_SIZE) / 2 - Game.SQUARE_SIZE / 2;
+        int y = (position.getFile()) * Game.SQUARE_SIZE + (Game.SQUARE_SIZE - Game.PIECE_SIZE) / 2 - Game.SQUARE_SIZE / 2;
+        return new int[] {x, y};
+    }
+
+    public static int[] positionToCoordinates(int px, int py, Position position)
+    {
+        int x = (px - position.getRank()) * Game.SQUARE_SIZE + (Game.SQUARE_SIZE - Game.PIECE_SIZE) / 2 - Game.SQUARE_SIZE / 2;
+        int y = (py - position.getFile()) * Game.SQUARE_SIZE + (Game.SQUARE_SIZE - Game.PIECE_SIZE) / 2 - Game.SQUARE_SIZE / 2;
+        return new int[] {x, y};
     }
 }

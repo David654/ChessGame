@@ -1,22 +1,24 @@
 package game.board;
 
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import game.board.positions.ChessPosition;
-import game.pieces.Color;
+import game.main.Game;
 import game.pieces.Piece;
 import game.pieces.Position;
 
+import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 
-public class Board
+public class Board extends JPanel
 {
     private final Square[] squares;
+    private final ArrayList<Border> borders;
     private ArrayList<Piece> pieces;
 
     public Board(BoardView boardView)
     {
-        squares = new Square[81];
+        squares = new Square[64];
+        borders = new ArrayList<>();
 
         setBoardView(boardView);
 
@@ -25,31 +27,68 @@ public class Board
 
     public void setBoardView(BoardView boardView)
     {
-        String[] ranks = new String[] {"", "a", "b", "c", "d", "e", "f", "g", "h"};
+        String[] ranks = new String[] {" ", "a", "b", "c", "d", "e", "f", "g", "h"};
 
-        for(int x = 0; x < 9; x++)
+        borders.add(new Border(this, 0, 0, ranks[0]));
+        borders.add(new Border(this, 0, 9 * Game.SQUARE_SIZE - Game.SQUARE_SIZE / 2, ranks[0]));
+        borders.add(new Border(this, 9 * Game.SQUARE_SIZE - Game.SQUARE_SIZE / 2, 0, ranks[0]));
+        borders.add(new Border(this, 9 * Game.SQUARE_SIZE - Game.SQUARE_SIZE / 2, 9 * Game.SQUARE_SIZE - Game.SQUARE_SIZE / 2, ranks[0]));
+        for(int x = 1; x < 9; x++)
         {
-            Square square = new Square(boardView, new Position(x, 0));
-            square.setText(ranks[x]);
-            square.setColor(Color.Blank);
-            squares[x * 9] = square;
+            int index = x;
+            if(boardView == BoardView.BlackView)
+            {
+                index = 9 - x;
+            }
+            borders.add(new Border(this, x * Game.SQUARE_SIZE - Game.SQUARE_SIZE / 2, 0, ranks[index]));
+            borders.add(new Border(this, x * Game.SQUARE_SIZE - Game.SQUARE_SIZE / 2, 8 * Game.SQUARE_SIZE + Game.SQUARE_SIZE / 2, ranks[index]));
         }
 
         for(int y = 1; y < 9; y++)
         {
-            Square square = new Square(boardView, new Position(0, y));
-            square.setText(String.valueOf(y));
-            square.setColor(Color.Blank);
-            squares[y] = square;
+            int value = y;
+            if(boardView == BoardView.BlackView)
+            {
+                value = 9 - y;
+            }
+            borders.add(new Border(this, 0, (9 - y) * Game.SQUARE_SIZE - Game.SQUARE_SIZE / 2, String.valueOf(value)));
+            borders.add(new Border(this, 9 * Game.SQUARE_SIZE - Game.SQUARE_SIZE / 2, (9 - y) * Game.SQUARE_SIZE - Game.SQUARE_SIZE / 2, String.valueOf(value)));
         }
 
-        for(int x = 1; x < 9; x++)
+        for(int x = 0; x < 8; x++)
         {
-            for(int y = 1; y < 9; y++)
+            for(int y = 0; y < 8; y++)
             {
-                squares[x * 9 + y] = new Square(boardView, new Position(x, y));
+                int rank = x;
+                int file = y;
+
+                if(boardView == BoardView.BlackView)
+                {
+                    rank = 7 - rank;
+                    file = 7 - file;
+                }
+
+                squares[x * 8 + y] = new Square(this, new Position(rank, file));
             }
         }
+    }
+
+    public Square getSquare(Position position)
+    {
+        for(int i = 0; i < squares.length; i++)
+        {
+            Square square = squares[i];
+            if(square.getPosition().equals(position))
+            {
+                return square;
+            }
+        }
+        return null;
+    }
+
+    public Square[] getSquares()
+    {
+        return squares;
     }
 
     public void addPiece(Piece piece)
@@ -69,6 +108,11 @@ public class Board
         return null;
     }
 
+    public ArrayList<Piece> getPieces()
+    {
+        return pieces;
+    }
+
     public void removePiece(Piece piece)
     {
         pieces.remove(piece);
@@ -86,23 +130,28 @@ public class Board
             Piece piece = pieces.get(i);
             piece.update();
         }
+
+        pieces.sort((p1, p2) -> Boolean.compare(p1.isSelected(), p2.isSelected()));
     }
 
-    public void render(SpriteBatch spriteBatch, BitmapFont font)
+    public void render(Graphics2D g2d)
     {
         for(int i = 0; i < squares.length; i++)
         {
             Square square = squares[i];
-            if(square != null)
-            {
-                square.render(spriteBatch, font);
-            }
+            square.render(g2d);
+        }
+
+        for(int i = 0; i < borders.size(); i++)
+        {
+            Border border = borders.get(i);
+            border.render(g2d);
         }
 
         for(int i = 0; i < pieces.size(); i++)
         {
             Piece piece = pieces.get(i);
-            piece.render(spriteBatch);
+            piece.render(g2d);
         }
     }
 }

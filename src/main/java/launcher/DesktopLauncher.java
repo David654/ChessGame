@@ -1,54 +1,52 @@
 package launcher;
 
-import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
-import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
+import com.formdev.flatlaf.FlatDarculaLaf;
+import com.formdev.flatlaf.FlatLaf;
+import com.formdev.flatlaf.FlatLightLaf;
+import game.main.Game;
 
+import javax.swing.*;
 import java.awt.*;
 
-public class DesktopLauncher
+public class DesktopLauncher extends JFrame
 {
-    private final Lwjgl3ApplicationConfiguration config;
-    private static Lwjgl3Application application;
-
     public static final Dimension SCREEN_SIZE = Toolkit.getDefaultToolkit().getScreenSize();
     public static final int WINDOW_WIDTH = SCREEN_SIZE.width / 2;
-    public static final int WINDOW_HEIGHT = SCREEN_SIZE.height / 2;
-    public static final boolean MAXIMIZED = false;
-    public static final boolean DECORATED = true;
+    public static final int WINDOW_HEIGHT = SCREEN_SIZE.height / 2 + Game.SQUARE_SIZE / 2;
+    public static final boolean RESIZABLE = false;
     public static final String TITLE = "Chess Game";
-
-    public static final int TICK_RATE = 60;
-    public static final boolean VSYNC = false;
-    public static final int antialiasing = 4;
 
     public DesktopLauncher()
     {
-        config = new Lwjgl3ApplicationConfiguration();
         configure();
+        Game game = new Game();
+        this.add(game, BorderLayout.CENTER);
+        this.add(game.getHud(), BorderLayout.EAST);
     }
 
     private void configure()
     {
-        config.setWindowedMode(WINDOW_WIDTH, WINDOW_HEIGHT);
-        config.setMaximized(MAXIMIZED);
-        config.setDecorated(DECORATED);
-        config.setTitle(TITLE);
-        config.setIdleFPS(TICK_RATE);
-        config.useVsync(VSYNC);
+        this.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+        this.setTitle(TITLE);
+        this.setResizable(RESIZABLE);
+        this.setLayout(new BorderLayout());
+        this.setLocationRelativeTo(null);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
     public void launch()
     {
-        application = new Lwjgl3Application(new Boot(), config);
+        this.setVisible(true);
     }
 
     public static void exit()
     {
-        application.exit();
+        System.exit(0);
     }
 
     public static void main(String[] args)
     {
+        FlatLaf.setup(new FlatLightLaf());
         DesktopLauncher desktopLauncher = new DesktopLauncher();
         desktopLauncher.launch();
     }
