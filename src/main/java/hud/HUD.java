@@ -38,6 +38,11 @@ public class HUD extends JScrollPane
 
         String ch = piece.getColor() == Color.White ? piece.getSymbols()[0] : piece.getSymbols()[1];
         String m = move.toString();
-        textArea.setText(textArea.getText() + Move.moveNum + ". " + ch + m.substring(1, m.indexOf("-") + 1) + ch + m.substring(m.indexOf("-") + 2) + "\n");
+        String moveNum = piece.getColor() == Color.White ? Move.moveNum / 2 + 1 + ". " : "";
+        textArea.setText(textArea.getText() + moveNum + ch + m.substring(1, m.indexOf("-") + 1) + ch + m.substring(m.indexOf("-") + 2) + "     ");
+        if(Move.moveNum != 0 && Move.moveNum % 2 == 0)
+        {
+            textArea.setText(textArea.getText() + "\n");
+        }
     }
 }

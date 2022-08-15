@@ -66,20 +66,26 @@ public class Mouse implements MouseListener, MouseMotionListener
         if(selectedPiece != null)
         {
             Position position = Position.coordinatesToPosition(selectedPiece.getX(), selectedPiece.getY());
-            position = new Position(position.getRank() + 1, position.getFile() + 1);
-            selectedPiece.setPosition(position);
 
-            if(Game.BOARD_VIEW == BoardView.WhiteView)
+            if(!startPosition.equals(position) && ((selectedPiece.getColor() == Color.White && Move.moveNum % 2 == 0) || (selectedPiece.getColor() == Color.Black && Move.moveNum % 2 != 0)))
             {
-                position = position.flip();
-            }
+                position = new Position(position.getRank() + 1, position.getFile() + 1);
+                selectedPiece.setPosition(position);
 
-            if(!startPosition.equals(position))
-            {
+                if(Game.BOARD_VIEW == BoardView.WhiteView)
+                {
+                    position = position.flip();
+                }
+
                 Move move = new Move(selectedPiece, startPosition, position);
                 Game.moveManager.addMove(move);
                 Game.hud.update();
                 System.out.println(Game.moveManager.getMove(Move.moveNum - 1));
+            }
+            else
+            {
+                selectedPiece.setPosition(startPosition);
+                selectedPiece.setY(Position.positionToCoordinates(0, 9, selectedPiece.getPosition())[1]);
             }
         }
     }
