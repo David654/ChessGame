@@ -1,6 +1,5 @@
 package launcher;
 
-import com.formdev.flatlaf.FlatDarculaLaf;
 import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.FlatLightLaf;
 import game.main.Game;
@@ -21,7 +20,7 @@ public class DesktopLauncher extends JFrame
         configure();
         Game game = new Game();
         this.add(game, BorderLayout.CENTER);
-        this.add(game.getHud(), BorderLayout.EAST);
+        this.add(Game.hud, BorderLayout.EAST);
     }
 
     private void configure()

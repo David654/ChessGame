@@ -1,6 +1,5 @@
 package game.input;
 
-import com.badlogic.gdx.Gdx;
 import game.board.BoardView;
 import game.board.Square;
 import game.main.Game;
@@ -9,7 +8,6 @@ import game.pieces.Color;
 import game.pieces.Piece;
 import game.pieces.Position;
 import game.util.TextureLoader;
-import launcher.DesktopLauncher;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -17,16 +15,10 @@ import java.awt.event.MouseMotionListener;
 
 public class Mouse implements MouseListener, MouseMotionListener
 {
-    private final Game game;
     private Piece selectedPiece;
     private int dx;
     private int dy;
     private Position startPosition;
-
-    public Mouse(Game game)
-    {
-        this.game = game;
-    }
 
     public boolean mouseOver(int mx, int my, int x, int y, int width, int height)
     {
@@ -47,9 +39,9 @@ public class Mouse implements MouseListener, MouseMotionListener
 
     public void mousePressed(MouseEvent e)
     {
-        for(int i = 0; i < game.board.getPieces().size(); i++)
+        for(int i = 0; i < Game.board.getPieces().size(); i++)
         {
-            Piece piece = game.board.getPieces().get(i);
+            Piece piece = Game.board.getPieces().get(i);
             piece.setSelected(false);
             if(selectedPiece != null) selectedPiece.setSelected(false);
             if(mouseOver(e.getX(), e.getY(), piece.getX(), piece.getY(), Game.PIECE_SIZE, Game.PIECE_SIZE))
@@ -66,7 +58,7 @@ public class Mouse implements MouseListener, MouseMotionListener
 
     public void mouseReleased(MouseEvent e)
     {
-        for(Square square : game.board.getSquares())
+        for(Square square : Game.board.getSquares())
         {
             square.setTexture(square.getColor() == Color.White ? TextureLoader.WHITE_SQUARE_TEXTURE : TextureLoader.BLACK_SQUARE_TEXTURE);
         }
@@ -85,9 +77,9 @@ public class Mouse implements MouseListener, MouseMotionListener
             if(!startPosition.equals(position))
             {
                 Move move = new Move(selectedPiece, startPosition, position);
-                game.moveManager.addMove(move);
-                game.hud.update();
-                System.out.println(game.moveManager.getMove(Move.moveNum - 1));
+                Game.moveManager.addMove(move);
+                Game.hud.update();
+                System.out.println(Game.moveManager.getMove(Move.moveNum - 1));
             }
         }
     }
@@ -110,7 +102,7 @@ public class Mouse implements MouseListener, MouseMotionListener
 
             Position currPosition = Position.coordinatesToPosition(selectedPiece.getX(), selectedPiece.getY());
 
-            for(Square square : game.board.getSquares())
+            for(Square square : Game.board.getSquares())
             {
                 if(square.getPosition().equals(currPosition))
                 {

@@ -17,12 +17,12 @@ public class Game extends JPanel
     public static final int PIECE_SIZE = DesktopLauncher.WINDOW_WIDTH / 16;
     public static final BoardView BOARD_VIEW = BoardView.WhiteView;
 
-    public Board board;
-    public Mouse mouse;
-    public MoveManager moveManager;
-    public HUD hud;
+    public static Board board;
+    public static Mouse mouse;
+    public static MoveManager moveManager;
+    public static HUD hud;
 
-    public Font basicFont;
+    public static Font basicFont;
 
     public Game()
     {
@@ -46,18 +46,12 @@ public class Game extends JPanel
         board.setPosition(new DefaultPosition());
 
 
-        mouse = new Mouse(this);
+        mouse = new Mouse();
         this.addMouseListener(mouse);
         this.addMouseMotionListener(mouse);
 
         moveManager = new MoveManager();
-
-        hud = new HUD(this);
-    }
-
-    public HUD getHud()
-    {
-        return hud;
+        hud = new HUD();
     }
 
     private void update()

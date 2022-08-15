@@ -11,12 +11,10 @@ import java.awt.*;
 
 public class HUD extends JScrollPane
 {
-    private final Game game;
     private final JTextArea textArea;
 
-    public HUD(Game game)
+    public HUD()
     {
-        this.game = game;
         textArea = new JTextArea();
         init();
     }
@@ -28,14 +26,14 @@ public class HUD extends JScrollPane
         this.setBorder(null);
 
         textArea.setEditable(false);
-        textArea.setFont(game.basicFont);
+        textArea.setFont(Game.basicFont);
         textArea.setLineWrap(true);
         textArea.setWrapStyleWord(true);
     }
 
     public void update()
     {
-        Move move = game.moveManager.getMove(Move.moveNum - 1);
+        Move move = Game.moveManager.getMove(Move.moveNum - 1);
         Piece piece = move.piece();
 
         String ch = piece.getColor() == Color.White ? piece.getSymbols()[0] : piece.getSymbols()[1];
